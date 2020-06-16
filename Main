@@ -1,0 +1,398 @@
+package sorting;
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(final String[] args)  throws IOException {
+
+        String dataType = "word";
+        String sortingType = "natural";
+        String inputFile = null;
+        String outputFile = null;
+
+
+        Set<String> sortTypes = Set.of("natural", "bycount");
+        Set<String> dataTypes = Set.of("word", "long", "line");
+
+
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
+                case "-sortingType":
+                    if (i + 1 >= args.length || !sortTypes.contains(args[i + 1].toLowerCase())) {
+                        System.out.println("No sorting type defined!");
+                        return;
+                    }
+                    sortingType = args[++i];
+                    break;
+                case "-dataType":
+                    if (i + 1 >= args.length || !dataTypes.contains(args[i + 1].toLowerCase())) {
+                        System.out.println("No data type defined!");
+                        return;
+                    }
+                    dataType = args[++i];
+                    break;
+                case "-inputFile":
+                    inputFile = args[++i];
+                    break;
+                case "-outputFile":
+                    outputFile = args[++i];
+                    break;
+                default:
+                    System.out.printf("\"%s\" isn't a valid parameter. It's skipped.%n",
+                            args[i]);
+                    break;
+            }
+        }
+
+        myMethods solution = myMethodsFactory.getInstance(sortingType, inputFile, outputFile);
+        assert solution != null;
+        if (dataType != null) {
+            solution.solve(dataType);
+        }
+
+    }
+}
+
+abstract class myMethods {
+
+    protected Scanner scanner;
+    protected FileWriter writer;
+    protected String inputFile;
+    protected String outputFile;
+
+    myMethods(String inputFile, String outputFile) {
+        this.inputFile = inputFile;
+        this.outputFile = outputFile;
+    }
+
+    void solve(String dataType)  throws IOException  {
+        switch (dataType) {
+            case "long":
+                argLong(inputFile, outputFile);
+                break;
+            case "line":
+                argLine(inputFile, outputFile);
+                break;
+            case "word":
+                argWord(inputFile, outputFile);
+                break;
+            default:
+                System.out.println("No data type defined!");
+                writer.write("No data type defined!");
+                writer.close();
+                break;
+        }
+    }
+
+    abstract void argLong(String inputFile, String outputFile) throws IOException;
+    abstract void argLine(String inputFile, String outputFile) throws IOException;
+    abstract void argWord(String inputFile, String outputFile) throws IOException;
+
+}
+
+abstract class myMethodsFactory {
+
+    static myMethods getInstance(String sortingType, String inputFile, String outputFile) {
+        myMethods methods = new Natural1(inputFile, outputFile);
+        if ("byCount".equals(sortingType)) {
+            methods = new byCount(inputFile, outputFile);
+        } else if (("natural".equals(sortingType))) {
+            methods = new Natural1(inputFile, outputFile);
+        }
+
+        return methods;
+    }
+}
+
+class Natural1 extends myMethods {
+
+    Natural1(String inputFile, String outputFile) {
+        super(inputFile, outputFile);
+    }
+    static Scanner scan = new Scanner(System.in);
+
+    public void argLong(String inputFile, String outputFile) throws IOException {
+
+        ArrayList<Integer> listInt = new ArrayList<>();
+
+        if (inputFile != null) {
+            try (Scanner scanner = new Scanner(inputFile)) {
+                while (scanner.hasNext()) {
+                    int nextNumber = scanner.nextInt();
+                    listInt.add(nextNumber);
+                }
+
+            }
+            scanner.close();
+        } else {
+            while (scan.hasNext()) {
+                int nextNumber = scan.nextInt();
+                listInt.add(nextNumber);
+            }
+        }
+
+        Collections.sort(listInt);
+
+        StringBuilder sb = new StringBuilder();
+        for (int z : listInt) {
+            sb.append(z).append(" ");
+        }
+
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write("Total numbers: " + listInt.size() + ".");
+                writer.write("Sorted data: " + sb.toString());
+            }
+            writer.close();
+        } else {
+            System.out.println("Total numbers: " + listInt.size() + ".");
+            System.out.println("Sorted data: " + sb.toString());
+        }
+    }
+
+    public void argLine(String inputFile, String outputFile) throws IOException {
+
+        ArrayList<String> listLines = new ArrayList<>();
+
+        if (inputFile != null) {
+            try (Scanner scanner = new Scanner(inputFile)) {
+
+                while (scanner.hasNext()) {
+                    String string = scanner.nextLine();
+                    listLines.add(string);
+                }
+            }
+            scanner.close();
+        } else {
+            while (scan.hasNext()) {
+                String string = scan.nextLine();
+                listLines.add(string);
+            }
+        }
+
+        Collections.sort(listLines);
+
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write("Total lines: " + listLines.size() + ".");
+                writer.write("Sorted data:");
+                for (String z : listLines) {
+                    writer.write(z);
+                }
+            }
+            writer.close();
+        } else {
+            System.out.println("Total lines: " + listLines.size() + ".");
+            System.out.println("Sorted data:");
+            for (String z : listLines) {
+                System.out.println(z);
+            }
+        }
+    }
+
+    public void argWord(String inputFile, String outputFile) throws IOException {
+
+        ArrayList<String> listWords = new ArrayList<>();
+
+        if (inputFile != null) {
+            try (Scanner scanner = new Scanner(inputFile)) {
+                while (scanner.hasNext()) {
+                    String string = scanner.next();
+                    listWords.add(string);
+                }
+            }
+        } else {
+            while (scan.hasNext()) {
+                String string = scan.next();
+                listWords.add(string);
+            }
+        }
+
+        Collections.sort(listWords);
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String z : listWords) {
+            sb.append(z).append(" ");
+        }
+
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write("Total words: " + listWords.size() + ".");
+                writer.write("Sorted data: " + sb.toString());
+            }
+        } else {
+            System.out.println("Total words: " + listWords.size() + ".");
+            System.out.println("Sorted data: " + sb.toString());
+        }
+    }
+}
+
+class byCount extends myMethods {
+
+    byCount(String inputFile, String outputFile) {
+        super(inputFile, outputFile);
+    }
+
+    static Scanner scan = new Scanner(System.in);
+
+    public void argLong(String inputFile, String outputFile) throws IOException {
+
+        ArrayList<Integer> listInt = new ArrayList<>();
+
+        Map<Integer, Integer> mapInt = new HashMap<>();
+
+        if (inputFile != null) {
+            try (Scanner scanner = new Scanner(inputFile)) {
+                while (scanner.hasNext()) {
+                    int nextNumber = scanner.nextInt();
+                    listInt.add(nextNumber);
+                }
+            }
+        } else {
+            while (scan.hasNext()) {
+                int nextNumber = scan.nextInt();
+                listInt.add(nextNumber);
+            }
+        }
+
+        for (int z : listInt) {
+            if (!mapInt.containsKey(z)) {
+                mapInt.put(z, 1);
+            } else {
+                mapInt.put(z, mapInt.get(z) + 1);
+            }
+        }
+
+        LinkedHashMap<String, Integer> sortedMapInt = new LinkedHashMap<>();
+
+        mapInt.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEachOrdered(x -> sortedMapInt.put(String.valueOf(x.getKey()), x.getValue()));
+
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write("Total numbers: " + listInt.size() + ".");
+                for (String i : sortedMapInt.keySet()) {
+                    int perc = 100 * sortedMapInt.get(i) / mapInt.size();
+                    writer.write(i + ": " + sortedMapInt.get(i) + " time(s), " + perc + "%");
+                }
+            }
+        } else {
+            System.out.println("Total numbers: " + listInt.size() + ".");
+            for (String i : sortedMapInt.keySet()) {
+                int perc = 100 * sortedMapInt.get(i) / mapInt.size();
+                System.out.println(i + ": " + sortedMapInt.get(i) + " time(s), " + perc + "%");
+            }
+        }
+    }
+
+    public void argLine(String inputFile, String outputFile) throws IOException {
+
+        ArrayList<String> listLines = new ArrayList<>();
+
+        Map<String, Integer> mapLines = new LinkedHashMap<>();
+
+        if (inputFile != null) {
+            try (Scanner scanner = new Scanner(inputFile)) {
+                while (scanner.hasNext()) {
+                    String string = scanner.nextLine();
+                    listLines.add(string);
+                }
+            }
+        } else {
+            while (scan.hasNext()) {
+                String string = scan.nextLine();
+                listLines.add(string);
+            }
+        }
+
+        Collections.sort(listLines);
+
+        for (String str : listLines) {
+            if (!mapLines.containsKey(str)) {
+                mapLines.put(str, 1);
+            } else {
+                mapLines.put(str, mapLines.get(str) + 1);
+            }
+        }
+
+        LinkedHashMap<String, Integer> sortedMapInt = new LinkedHashMap<>();
+
+        mapLines.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEachOrdered(x -> sortedMapInt.put(String.valueOf(x.getKey()), x.getValue()));
+
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write("Total lines: " + listLines.size() + ".");
+                for (String i : sortedMapInt.keySet()) {
+                    int perc = 100 * sortedMapInt.get(i) / mapLines.size();
+                    writer.write(i + ": " + sortedMapInt.get(i) + " time(s), " + perc + "%");
+                }
+            }
+        } else {
+            System.out.println("Total lines: " + listLines.size() + ".");
+            for (String i : sortedMapInt.keySet()) {
+                int perc = 100 * sortedMapInt.get(i) / mapLines.size();
+                System.out.println(i + ": " + sortedMapInt.get(i) + " time(s), " + perc + "%");
+            }
+        }
+    }
+
+    public void argWord(String inputFile, String outputFile) throws IOException {
+
+        ArrayList<String> listWords = new ArrayList<>();
+        Map<String, Integer> mapWords = new LinkedHashMap<>();
+
+        if (inputFile != null) {
+            try (Scanner scanner = new Scanner(inputFile)) {
+                while (scanner.hasNext()) {
+                    String string = scanner.next();
+                    listWords.add(string);
+                }
+            }
+        } else {
+            while (scan.hasNext()) {
+                String string = scan.next();
+                listWords.add(string);
+            }
+        }
+        Collections.sort(listWords);
+
+
+        for (String str : listWords) {
+            if (!mapWords.containsKey(str)) {
+                mapWords.put(str, 1);
+            } else {
+                mapWords.put(str, mapWords.get(str) + 1);
+            }
+        }
+
+        LinkedHashMap<String, Integer> sortedMapWord = new LinkedHashMap<>();
+
+        mapWords.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEachOrdered(x -> sortedMapWord.put(String.valueOf(x.getKey()), x.getValue()));
+
+        if (outputFile != null) {
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                writer.write("Total words: " + listWords.size() + ".");
+                for (String i : sortedMapWord.keySet()) {
+                    int perc = 100 * sortedMapWord.get(i) / listWords.size();
+                    writer.write(i + ": " + sortedMapWord.get(i) + " time(s), " + perc + "%");
+                }
+            }
+        } else {
+            System.out.println("Total words: " + listWords.size() + ".");
+            for (String i : sortedMapWord.keySet()) {
+                int perc = 100 * sortedMapWord.get(i) / listWords.size();
+                System.out.println(i + ": " + sortedMapWord.get(i) + " time(s), " + perc + "%");
+            }
+        }
+    }
+}
