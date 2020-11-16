@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="SortingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-16T12:17:56" hostname="DESKTOP-4DVUSE4" time="0.404">
+<testsuite name="SortingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-16T12:19:21" hostname="DESKTOP-4DVUSE4" time="0.374">
   <properties/>
-  <testcase name="start" classname="SortingTest" time="0.404"/>
+  <testcase name="start" classname="SortingTest" time="0.374"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 > 1 -2   333 4
