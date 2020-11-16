@@ -45,11 +45,9 @@ public class Main {
             }
         }
 
-        SortingMethods solution = SortingMethodsFactory.getInstance(sortingType, inputFile, outputFile);
-        assert solution != null;
-        if (dataType != null) {
-            solution.solve(dataType);
-        }
+        SortingMethodsFactory solution = SortingMethods.getInstance(sortingType, inputFile, outputFile);
+        solution.solve(dataType);
+
 
     }
 }

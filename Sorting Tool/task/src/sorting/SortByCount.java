@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class SortByCount extends SortingMethods {
+public class SortByCount extends SortingMethodsFactory {
 
     SortByCount(String inputFile, String outputFile) {
         super(inputFile, outputFile);
@@ -64,6 +64,7 @@ public class SortByCount extends SortingMethods {
         }
     }
 
+    @Override
     public void argLine(String inputFile, String outputFile) throws IOException {
 
         ArrayList<String> listLines = new ArrayList<>();

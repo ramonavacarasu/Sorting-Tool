@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class NaturalSort extends SortingMethods {
+public class NaturalSort extends SortingMethodsFactory {
 
     NaturalSort(String inputFile, String outputFile) {
         super(inputFile, outputFile);

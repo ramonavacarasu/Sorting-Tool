@@ -1,10 +1,10 @@
-sorting/Main.java
- sorting.Main
-sorting/SortingMethods.java
- sorting.SortingMethods
-sorting/SortByCount.java
- sorting.SortByCount
-sorting/NaturalSort.java
- sorting.NaturalSort
 sorting/SortingMethodsFactory.java
  sorting.SortingMethodsFactory
+sorting/NaturalSort.java
+ sorting.NaturalSort
+sorting/Main.java
+ sorting.Main
+sorting/SortByCount.java
+ sorting.SortByCount
+sorting/SortingMethods.java
+ sorting.SortingMethods

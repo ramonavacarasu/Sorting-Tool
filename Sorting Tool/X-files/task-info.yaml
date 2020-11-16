@@ -904,16 +904,16 @@ files:
 - name: out.txt
   visible: true
   learner_created: true
-- name: src/sorting/SortingMethods.java
-  visible: true
-  learner_created: true
-- name: src/sorting/SortingMethodsFactory.java
-  visible: true
-  learner_created: true
 - name: src/sorting/NaturalSort.java
   visible: true
   learner_created: true
 - name: src/sorting/SortByCount.java
+  visible: true
+  learner_created: true
+- name: src/sorting/SortingMethods.java
+  visible: true
+  learner_created: true
+- name: src/sorting/SortingMethodsFactory.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/projects/45/stages/244/implement#comment
@@ -921,5 +921,5 @@ status: Solved
 feedback:
   message: Congratulations! Continue on <a href="https://hyperskill.org/projects/45/stages/244/implement">JetBrains
     Academy</a>
-  time: Mon, 16 Nov 2020 11:00:35 UTC
+  time: Mon, 16 Nov 2020 12:15:21 UTC
 record: 5

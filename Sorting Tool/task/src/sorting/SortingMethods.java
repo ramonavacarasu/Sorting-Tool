@@ -1,41 +1,16 @@
 package sorting;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+class SortingMethods {
 
-abstract class SortingMethods {
+    static SortingMethodsFactory getInstance(String sortingType, String inputFile, String outputFile) {
 
-    private Scanner scanner;
-    private FileWriter writer;
-    private String inputFile;
-    private String outputFile;
+        SortingMethodsFactory methods;
 
-    SortingMethods (String inputFile, String outputFile) {
-        this.inputFile = inputFile;
-        this.outputFile = outputFile;
-    }
-
-    void solve(String dataType)  throws IOException {
-        switch (dataType) {
-            case "long":
-                argLong(inputFile, outputFile);
-                break;
-            case "line":
-                argLine(inputFile, outputFile);
-                break;
-            case "word":
-                argWord(inputFile, outputFile);
-                break;
-            default:
-                System.out.println("No data type defined!");
-                writer.write("No data type defined!");
-                writer.close();
-                break;
+        if ("byCount".equals(sortingType)) {
+            methods = new SortByCount(inputFile, outputFile);
+        } else {
+            methods = new NaturalSort(inputFile, outputFile);
         }
+        return methods;
     }
-
-    abstract void argLong(String inputFile, String outputFile) throws IOException;
-    abstract void argLine(String inputFile, String outputFile) throws IOException;
-    abstract void argWord(String inputFile, String outputFile) throws IOException;
 }
